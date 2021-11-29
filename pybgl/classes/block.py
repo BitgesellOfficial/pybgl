@@ -251,14 +251,14 @@ class BlockTemplate():
 
         header = self.h1 +  s2rh(nonce) + self.h1
         return sha3_256(header, 1)
-        cb = self.coinb1 + extra_nonce_1 + extra_nonce_2 + self.coinb2
-        time = s2rh(time)
+        cb = self.coinb1 + BlockTemplate.extra_nonce_1 + BlockTemplate.extra_nonce_2 + self.coinb2
+        time = s2rh(Block.time)
         bits = s2rh(self.bits)
         nonce = s2rh(nonce)
         cbh = sha3_256(bytes_from_hex(cb))
         c = Transaction(cb)
         merkle_root = merkle_root_from_branches(self.merkle_branches, cbh)
-        header = version + prev_hash + merkle_root + time + bits + nonce
+        header = Block.version + BlockTemplate.prev_hash + merkle_root + Block.time + bits + nonce
         block = header.hex()
         block +=int_to_var_int(len (self.transactions) + 1).hex()
         block += cb
